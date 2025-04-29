@@ -95,6 +95,49 @@ app.get("/logout", (req, res) => {
         }
     });
 });
+// [7] 브릿지용 로그인 폼 페이지
+app.get("/login_bridge", (req, res) => {
+    res.send(`
+        <html>
+          <head><title>브릿지 로그인</title></head>
+          <body>
+            <h2>브릿지용 로그인</h2>
+            <form id="loginForm">
+              <input type="text" id="username" placeholder="아이디" required/><br/><br/>
+              <input type="password" id="password" placeholder="비밀번호" required/><br/><br/>
+              <button type="submit">로그인</button>
+              console.log("IamFishman3");
+            </form>
+
+            <script>
+              function sendLoginSuccessToApp(user) {
+                if (window.JSBridge) {
+                  window.JSBridge.loginSuccess(JSON.stringify(user));
+                  console.log("IamFishman4");
+                }
+              }
+            
+              window.onload = function() {
+                const form = document.getElementById('loginForm');
+                form.addEventListener('submit', function(event) {
+                  event.preventDefault();
+                  const username = document.getElementById('username').value;
+                  const password = document.getElementById('password').value;
+                  console.log("IamFishman1");
+                  if (username === "testuser" && password === "testpass") {
+                  console.log("IamFishman2");
+                    const user = { username: username };
+                    sendLoginSuccessToApp(user);
+                  } else {
+                    alert('아이디 또는 비밀번호가 잘못되었습니다.');
+                  }
+                });
+              }
+            </script>
+          </body>
+        </html>
+    `);
+});
 
 // [0] 루트 URL 접근 시 /login으로 이동
 app.get("/", (req, res) => {
