@@ -23,19 +23,65 @@ app.get("/login", (req, res) => {
         return res.redirect("/profile");
     }
 
+    // res.send(`
+    //     <html>
+    //       <head><title>로그인</title></head>
+    //       <body>
+    //         <h2>로그인</h2>
+    //         <form method="POST" action="/login">
+    //           <input type="text" name="username" placeholder="아이디" required/><br/><br/>
+    //           <input type="password" name="password" placeholder="비밀번호" required/><br/><br/>
+    //           <button type="submit">로그인</button>
+    //         </form>
+    //       </body>
+    //     </html>
+    // `);
+
     res.send(`
         <html>
           <head><title>로그인</title></head>
           <body>
             <h2>로그인</h2>
-            <form method="POST" action="/login">
-              <input type="text" name="username" placeholder="아이디" required/><br/><br/>
-              <input type="password" name="password" placeholder="비밀번호" required/><br/><br/>
-              <button type="submit">로그인</button>
-            </form>
+            <input type="text" id="username" placeholder="아이디 입력">
+            <input type="password" id="password" placeholder="비밀번호 입력">
+            <button id="loginButton">로그인</button>
+
+            <script>
+                document.getElementById('loginButton').addEventListener('click', function() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                // 여기서 서버로 직접 API 요청
+                fetch('https://example.com/api/login', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                    username: username,
+                    password: password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                    alert('로그인 성공!');
+                    // 예를 들어 토큰 저장 후 페이지 이동 등
+                    } else {
+                    alert('로그인 실패!');
+                    }
+                })
+                .catch(error => {
+                    console.error('에러 발생:', error);
+                });
+                });
+            </script>
+
+
           </body>
         </html>
     `);
+
 });
 
 // [4] 로그인 처리 (POST /login)
@@ -106,14 +152,12 @@ app.get("/login_bridge", (req, res) => {
               <input type="text" id="username" placeholder="아이디" required/><br/><br/>
               <input type="password" id="password" placeholder="비밀번호" required/><br/><br/>
               <button type="submit">로그인</button>
-              console.log("IamFishman3");
             </form>
 
             <script>
               function sendLoginSuccessToApp(user) {
                 if (window.JSBridge) {
                   window.JSBridge.loginSuccess(JSON.stringify(user));
-                  console.log("IamFishman4");
                 }
               }
             
@@ -123,9 +167,7 @@ app.get("/login_bridge", (req, res) => {
                   event.preventDefault();
                   const username = document.getElementById('username').value;
                   const password = document.getElementById('password').value;
-                  console.log("IamFishman1");
                   if (username === "testuser" && password === "testpass") {
-                  console.log("IamFishman2");
                     const user = { username: username };
                     sendLoginSuccessToApp(user);
                   } else {
