@@ -38,8 +38,7 @@ app.get("/login", (req, res) => {
     // `);
 
     res.send(`
-        <html>
-          <head><title>로그인</title></head>
+        <head><title>로그인</title></head>
           <body>
             <h2>로그인</h2>
             <input type="text" id="username" placeholder="아이디 입력">
@@ -51,25 +50,19 @@ app.get("/login", (req, res) => {
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
 
+                console.log(username);
+                console.log(password);
+
                 // 여기서 서버로 직접 API 요청
-                fetch('https://example.com/api/login', {
+                fetch('http://localhost:3000/login', {
                     method: 'POST',
                     headers: {
                     'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                    username: username,
-                    password: password
+                      username: username,
+                      password: password
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                    alert('로그인 성공!');
-                    // 예를 들어 토큰 저장 후 페이지 이동 등
-                    } else {
-                    alert('로그인 실패!');
-                    }
                 })
                 .catch(error => {
                     console.error('에러 발생:', error);
