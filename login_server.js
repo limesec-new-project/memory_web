@@ -23,65 +23,66 @@ app.get("/login", (req, res) => {
         return res.redirect("/profile");
     }
 
-    // res.send(`
-    //     <html>
-    //       <head><title>로그인</title></head>
-    //       <body>
-    //         <h2>로그인</h2>
-    //         <form method="POST" action="/login">
-    //           <input type="text" name="username" placeholder="아이디" required/><br/><br/>
-    //           <input type="password" name="password" placeholder="비밀번호" required/><br/><br/>
-    //           <button type="submit">로그인</button>
-    //         </form>
-    //       </body>
-    //     </html>
-    // `);
-
     res.send(`
-        <head><title>로그인</title></head>
+        <html>
+          <head><title>로그인</title></head>
           <body>
             <h2>로그인</h2>
-            <input type="text" id="username" placeholder="아이디 입력">
-            <input type="password" id="password" placeholder="비밀번호 입력">
-            <button id="loginButton">로그인</button>
-
-            <script>
-                document.getElementById('loginButton').addEventListener('click', function() {
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-
-                console.log(username);
-                console.log(password);
-
-                // 여기서 서버로 직접 API 요청
-                fetch('http://localhost:3000/login', {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                      username: username,
-                      password: password
-                    })
-                })
-                .catch(error => {
-                    console.error('에러 발생:', error);
-                });
-                });
-            </script>
-
-
+            <form method="POST" action="/login">
+              <input type="text" name="username" placeholder="아이디" required/><br/><br/>
+              <input type="password" name="password" placeholder="비밀번호" required/><br/><br/>
+              <button type="submit">로그인</button>
+            </form>
           </body>
         </html>
     `);
+
+    // res.send(`
+    //     <head><title>로그인</title></head>
+    //       <body>
+    //         <h2>로그인</h2>
+    //         <input type="text" id="username" placeholder="아이디 입력">
+    //         <input type="password" id="password" placeholder="비밀번호 입력">
+    //         <button id="loginButton">로그인</button>
+
+    //         <script>
+    //             document.getElementById('loginButton').addEventListener('click', function() {
+    //             const username = document.getElementById('username').value;
+    //             const password = document.getElementById('password').value;
+
+    //             console.log(username);
+    //             console.log(password);
+
+    //             // 여기서 서버로 직접 API 요청
+    //             fetch('http://localhost:3000/login', {
+    //                 method: 'POST',
+    //                 headers: {
+    //                 'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify({
+    //                   username: username,
+    //                   password: password
+    //                 })
+    //             })
+    //             .catch(error => {
+    //                 console.error('에러 발생:', error);
+    //             });
+    //             });
+    //         </script>
+
+
+    //       </body>
+    //     </html>
+    // `);
 
 });
 
 // [4] 로그인 처리 (POST /login)
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
+    console.log("in post login")
 
-    if (username === "testuser" && password === "testpass") {
+    if (username === "hellouser" && password === "hellopass") {
         req.session.user = { username };
 
         // ✅ 로그인 성공 시 myapp://loginSuccess?username=testuser 로 리다이렉트
