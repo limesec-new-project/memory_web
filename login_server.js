@@ -80,7 +80,6 @@ app.get("/login", (req, res) => {
 // [4] 로그인 처리 (POST /login)
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
-    console.log("in post login")
 
     if (username === "hellouser" && password === "hellopass") {
         req.session.user = { username };
